@@ -21,7 +21,7 @@ class HashItem
 	public:
 		string key;
 		int value;
-
+		
 		HashItem(string key, int value)
 		{
 			this->key = key;
@@ -36,22 +36,22 @@ class HashTable
 
 		HashItem **htable;
 		int openSlots;
-
+		
 	public:
-
+		
 		//Hash Table constructor.
 		HashTable()
 		{
 			htable = new HashItem* [TABLE_SIZE];
-
+			
 			for( int i = 0; i < TABLE_SIZE; i++ )
 			{
 				htable[i] = NULL;
 			}
-
+			
 			this->openSlots = TABLE_SIZE;
 		}
-
+		
 		//Hash Table deconstructor.
 		~HashTable()
 		{
@@ -60,10 +60,10 @@ class HashTable
 				if (htable[i] != NULL )
 					delete htable[i];
 			}
-
+			
 			delete[] htable;
 		}
-
+		
 		//Helper function to check if table is empty.
 		bool IsEmpty()
 		{
@@ -72,7 +72,7 @@ class HashTable
 			else
 				return false;
 		}
-
+		
 		//Helper function to check if table is full.
 		bool IsFull()
 		{
@@ -81,20 +81,20 @@ class HashTable
 			else
 				return false;
 		}
-
+		
 		//Helper function to get sum of string
 		int KeySum(string key)
 		{
 			int sum = 0;
-
+			
 			for( int i = 0; i < key.length(); i++ )
 			{
 				sum = sum + (int)key[i];
 			}
-
+			
 			return sum;
 		}
-
+		
 		//Hash function.
 		int HashFunction(string key)
 		{
@@ -102,11 +102,11 @@ class HashTable
 
 			return 11 * sum % TABLE_SIZE;
 		}
-
+		
 		//Insert function using double hashing.
 		void InsertItem(string key)
 		{
-
+			
 			int sum = KeySum(key);
 			int increment = 11 * sum / TABLE_SIZE;
 			int hash_value = HashFunction(key);
@@ -116,9 +116,16 @@ class HashTable
 			{
 				while(htable[hash_value] != NULL && isInsertable)
 				{
+					//Compares the key given to the key in the current slot.
 					if( htable[hash_value]->key.compare(key) != 0)
 					{
+						int temp = hash_value;
+						
 						hash_value = (hash_value + increment) % TABLE_SIZE;
+						
+						//Did this due to some words returning same home adress hash and rehash.
+						if(temp == hash_value)
+							hash_value = hash_value + 1;
 					}
 					else
 					{
@@ -129,16 +136,18 @@ class HashTable
 				}
 				if(isInsertable)
 				{
+					//Insert key,value  and subtract from number of slots open.
 					htable[hash_value] = new HashItem(key, hash_value);
 					this->openSlots--;
 				}
 			}
 			else
 			{
-
+				
 			}
 		}
-
+		
+		//Search function.
 		void SearchItem(string key)
 		{
 			int sum = KeySum(key);
@@ -153,7 +162,14 @@ class HashTable
 				{
 					if( htable[hash_value]->key.compare(key) != 0)
 					{
+						int temp = hash_value;
+						
 						hash_value = (hash_value + increment) % TABLE_SIZE;
+						
+						if(temp == hash_value)
+							hash_value = hash_value + 1;
+							
+						//Using a counter to make sure that I don't get stuck in a loop on searches for words that dont exist while table is full.
 						counter++;
 					}
 					else
@@ -161,10 +177,10 @@ class HashTable
 						isFound = true;
 					}
 				}
-
+				
 				if(isFound)
 				{
-					cout << "\n SUCCESS: Match found at index: " << htable[hash_value]->value << " with key: " << htable[hash_value]->key << ".\n" << endl;
+					cout << "\n SUCCESS: Match found at index: " << htable[hash_value]->value +1 << " with key: " << htable[hash_value]->key << ".\n" << endl;
 					system("pause");
 				}
 				else
@@ -175,10 +191,11 @@ class HashTable
 			}
 			else
 			{
-
+				
 			}
 		}
-
+		
+		//Delete function.
 		void DeleteItem(string key)
 		{
 			int sum = KeySum(key);
@@ -193,7 +210,12 @@ class HashTable
 				{
 					if( htable[hash_value]->key.compare(key) != 0)
 					{
+						int temp = hash_value;
+						
 						hash_value = (hash_value + increment) % TABLE_SIZE;
+						
+						if(temp == hash_value)
+							hash_value = hash_value + 1;
 						counter++;
 					}
 					else
@@ -201,10 +223,11 @@ class HashTable
 						isFound = true;
 					}
 				}
-
+				
 				if(isFound)
 				{
-					cout << "\n SUCCESS: Deleting key at index: " << htable[hash_value]->value << ".\n" << endl;
+					//Report found entry, setting index to NULL, and adding to number of slots open.
+					cout << "\n SUCCESS: Deleting key at index: " << htable[hash_value]->value + 1 << ".\n" << endl;
 					htable[hash_value] = NULL;
 					this->openSlots++;
 					system("pause");
@@ -217,10 +240,11 @@ class HashTable
 			}
 			else
 			{
-
+				
 			}
 		}
-
+		
+		//Function that dumps the table to display.
 		void displayTable()
 		{
 			for( int i = 0; i < TABLE_SIZE; i++)
@@ -232,42 +256,44 @@ class HashTable
 				else
 					cout << i+1 << ".  " << "" << endl;
 			}
-
+				
 		}
 };
 
+//Begin Main.
 int main(void)
 {
 	HashTable hash;
 	string key;
-
+	
 	ifstream inDataFile;
 	string filename;
 	int truncatedEntries = 0;
-
+	
 	int choice;
-
+	
+	//Begin file processing...
 	cout << "Enter a filename to process: ";
 	getline(cin, filename);
-
+	
 	//This bit here is annoying. Converting str to c_str.
 	//I can't be sure if this will be compiled against C++11 which supports str in ifstream.open.
 	//Planning for worst case.
 	inDataFile.open(filename.c_str());
-	//cout << "opened"<<endl;
-
+	
 	if(inDataFile.fail()){
 		cout << "Error opening data file." << endl;
 		system("pause");
 		exit(1);
 	}
-
+	
 	cin.clear();
 	cin.sync();
 	cout << endl;
 
+	//Tracking entries that cannot be inserted. Not needed, but it's nice to see that some things get lost if the data file is too big.
 	while( getline(inDataFile, key) )
-	{
+	{	
 		if(hash.IsFull())
 		{
 			truncatedEntries++;
@@ -277,13 +303,15 @@ int main(void)
 			hash.InsertItem(key);
 		}
 	}
-
+	
 	if(truncatedEntries)
 	{
 		cout << "There were " << truncatedEntries << " entries not placed in the table.\n" << endl;
 		system("pause");
 	}
-
+	//End file processing.
+	
+	//Begin menu loop.
 	while(1)
 	{
 		system("cls");
@@ -295,21 +323,21 @@ int main(void)
 		cout << " 5. Exit." << endl;
 		cout << "\n ----------------------\n" << endl;
 		cout << " Enter a selection: ";
-
+		
 		cin>>choice;
-
+		
 		switch(choice)
 		{
 			case 1:
 				cin.clear();
 				cin.sync();
 				cout << endl;
-
+				
 				if(hash.IsFull())
 				{
 					cout << " ERROR: The table is full.\n" << endl;
 					system("pause");
-
+					
 				}
 				else
 				{
@@ -317,18 +345,18 @@ int main(void)
 					getline(cin, key);
 					hash.InsertItem(key);
 				}
-
+				
 				break;
 
 			case 2:
 				cin.clear();
 				cin.sync();
 				cout << endl;
-
+				
 				if(hash.IsEmpty())
 				{
 					cout << " ERROR: There is nothing to search.\n" << endl;
-					system("pause");
+					system("pause");		
 				}
 				else
 				{
@@ -336,14 +364,14 @@ int main(void)
 					getline(cin, key);
 					hash.SearchItem(key);
 				}
-
+				
 				break;
-
+				
 			case 3:
 				cin.clear();
 				cin.sync();
 				cout << endl;
-
+				
 				if(hash.IsEmpty())
 				{
 					cout << " ERROR: There is nothing to delete.\n" << endl;
@@ -357,7 +385,7 @@ int main(void)
 				}
 
 				break;
-
+				
 			case 4:
 				cin.clear();
 				cin.sync();
@@ -365,12 +393,12 @@ int main(void)
 				hash.displayTable();
 				cout << endl;
 				system("pause");
-
+				
 				break;
-
+				
 			case 5:
 				exit(1);
-
+				
 			default:
 				cin.clear();
 				cin.sync();
@@ -379,5 +407,7 @@ int main(void)
 				system("pause");
 		}
 	}
+	//End menu.
+	
 	return 0;
 }
