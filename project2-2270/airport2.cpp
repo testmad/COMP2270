@@ -39,10 +39,10 @@ class Airstrip
 			inQueue = 0;
 			totalWait = 0;
 			
-			front = NULL;
+			front = NULL;			
 		}
 		
-		int insert(int id, int fuel, int type)
+		int insert(ofstream& outDataFile, int id, int fuel, int type)
 		{
 			//If there is space in the queue.
 			if(inQueue < 6)
@@ -54,11 +54,12 @@ class Airstrip
 				tmp->id = id;
 				tmp->fuel = fuel;
 				tmp->type = type;
+				tmp->timeWaited = 0;
 				
 				//Different inserts for different plane types.
 				if(tmp->type == 1)
 				{
-					cout<<"\t\tPlane " << id << " ready to land; " << tmp->fuel << " units of fuel remaining." << endl;
+					outDataFile<<"\t\tPlane " << id << " ready to land; " << tmp->fuel << " units of fuel remaining." << endl;
 					if (front == NULL || fuel < front->fuel)
 					{
 						tmp->next = front;
@@ -77,7 +78,7 @@ class Airstrip
 				}
 				else
 				{
-					cout<<"\t\tPlane " << id << " ready to take off." << endl;
+					outDataFile<<"\t\tPlane " << id << " ready to take off." << endl;
 					if (front == NULL)
 					{
 						tmp->next = front;
@@ -108,13 +109,13 @@ class Airstrip
 				
 				if(tmp->type == 1)
 				{
-					cout<<"\t\tPlane " << id << " ready to land; " << tmp->fuel << " units of fuel remaining." << endl;
-					cout<<"\t\tPlane " << id << " directed to another airport." << endl;
+					outDataFile<<"\t\tPlane " << id << " ready to land; " << tmp->fuel << " units of fuel remaining." << endl;
+					outDataFile<<"\t\tPlane " << id << " directed to another airport." << endl;
 				}
 				else
 				{
-					cout<<"\t\tPlane " << id << " ready to take off." << endl;
-					cout<<"\t\tPlane " << id << " told to try later." << endl;
+					outDataFile<<"\t\tPlane " << id << " ready to take off." << endl;
+					outDataFile<<"\t\tPlane " << id << " told to try later." << endl;
 				}
 				
 				free(tmp);
@@ -123,7 +124,7 @@ class Airstrip
 			}
 		}
 		
-		int remove()
+		int remove(ofstream& outDataFile)
 		{
 			plane *tmp;
 			
@@ -133,14 +134,14 @@ class Airstrip
 			}
 			else
 			{
-				int tmpWaited = 0;
+				//int tmpWaited = 0;
 				tmp = front;
 				
 				//Different output based on type of plane removed.
 				if(tmp->type == 1)
-					cout<<"Plane " << tmp->id << " landed; " << "in queue " << tmp->timeWaited << " time units."<< endl;
+					outDataFile<<"Plane " << tmp->id << " landed; " << "in queue " << tmp->timeWaited << " time units."<< endl;
 				else
-					cout<<"Plane " << tmp->id << " took off; " << "in queue " << tmp->timeWaited << " time units." << endl;
+					outDataFile<<"Plane " << tmp->id << " took off; " << "in queue " << tmp->timeWaited << " time units." << endl;
 				
 				totalWait += tmp->timeWaited;
 				inQueue--;
@@ -152,7 +153,7 @@ class Airstrip
 			}
 		}
 		
-		int purge()
+		int purge(ofstream& outDataFile)
 		{
 			plane *tmp, *prev;
 			tmp = front;
@@ -165,7 +166,7 @@ class Airstrip
 			{
 				if(tmp->fuel < 0 )
 				{
-					cout<<"\t\tPlane " << tmp->id << " has crashed!"<<endl;
+					outDataFile<<"\t\tPlane " << tmp->id << " has crashed!"<<endl;
 					
 					front = tmp->next;
 
@@ -300,7 +301,8 @@ int main(int argc, char** argv)
 	cin.clear();
 	cin.sync();
 		
-	
+	outDataFile << "Total time units: " << tUnits << endl <<"Landing expected: " << lVal << endl << "Takeoff expected: " << tVal << endl << "Fuel expected: " << fVal << endl;
+	outDataFile << endl << "ACTIVITY LOG:" << endl << endl;
 	while(tUnits > count)
 	{
 		int tmp;
@@ -310,7 +312,7 @@ int main(int argc, char** argv)
 		{
 			for(int i = 0; i < tmp; i++)
 			{
-				if(landingQ.insert(planeId, pRandom(fVal), 1))
+				if(landingQ.insert(outDataFile, planeId, pRandom(fVal), 1))
 					planeId++;
 				else
 				{
@@ -325,7 +327,7 @@ int main(int argc, char** argv)
 		{
 			for(int i = 0; i < tmp; i++)
 			{
-				if(takeoffQ.insert(planeId, pRandom(fVal), 0))
+				if(takeoffQ.insert(outDataFile, planeId, pRandom(fVal), 0))
 					planeId++;
 				else
 				{
@@ -335,19 +337,19 @@ int main(int argc, char** argv)
 			}
 		}
 
-		totalCrash += landingQ.purge();
+		totalCrash += landingQ.purge(outDataFile);
 
-		cout << count+1 << ":\t";
+		outDataFile << count+1 << ":\t";
 		
-		if(landingQ.remove())
+		if(landingQ.remove(outDataFile))
 			totalLanded++;
 		else
 		{
-			if(takeoffQ.remove())
+			if(takeoffQ.remove(outDataFile))
 				totalTakeoff++;
 			else
 			{
-				cout << "Runway is idle." << endl;
+				outDataFile << "Runway is idle." << endl;
 				totalIdle++;
 			}
 		}	
@@ -359,20 +361,32 @@ int main(int argc, char** argv)
 	}
 	
 	//Summary
-	cout << "SUMMARY:" << endl;
-	cout << "\tSimulation has concluded after " << tUnits << " time units.\n";
-	cout << "\tTotal number of planes processed: \t\t" << (planeId - 1) << "\n";
-	cout << "\t\tNumber of planes landed: \t\t" << totalLanded << endl;
-	cout << "\t\tNumber of planes taken off: \t\t" << totalTakeoff << endl;
-	cout << "\t\tNumber of planes refused use: \t\t" << totalRefuse << endl;
-	cout << "\t\tNumber left ready to land: \t\t" << landingQ.inQueue << endl;
-	cout << "\t\tNumber left ready to take off: \t\t" << takeoffQ.inQueue << endl;
-	cout << "\t\tNumber crashed: \t\t\t" << totalCrash << endl;
-	cout << "\t\tPercentage of time runway was idle: \t" << ((float)totalIdle/(float)tUnits)*100 << endl;
-	cout << "\t\tAverage wait time to land: \t\t" << (float)landingQ.totalWait/(float)totalLanded << endl;
-	cout << "\t\tAverage wait time to take off: \t\t" << (float)takeoffQ.totalWait/(float)totalTakeoff << endl;
-	
-	
+	outDataFile << endl << "SUMMARY:" << endl << endl;
+	outDataFile << "\tSimulation has concluded after " << tUnits << " time units." << endl << endl;
+	outDataFile << "\tTotal number of planes processed: \t\t\t" << (planeId - 1) << endl;
+	outDataFile << "\t\tNumber of planes landed: \t\t\t\t" << totalLanded << endl;
+	outDataFile << "\t\tNumber of planes taken off: \t\t\t" << totalTakeoff << endl;
+	outDataFile << "\t\tNumber of planes refused use: \t\t\t" << totalRefuse << endl;
+	outDataFile << "\t\tNumber left ready to land: \t\t\t\t" << landingQ.inQueue << endl;
+	outDataFile << "\t\tNumber left ready to take off: \t\t\t" << takeoffQ.inQueue << endl;
+	outDataFile << "\t\tNumber crashed: \t\t\t\t\t\t" << totalCrash << endl;
+	outDataFile << "\t\tPercentage of time runway was idle: \t" << ((float)totalIdle/(float)tUnits)*100 << endl;
+	if(totalLanded == 0)
+	{
+		outDataFile << "\t\tAverage wait time to land: \t\t\t\t0" << endl;
+	}
+	else
+	{
+		outDataFile << "\t\tAverage wait time to land: \t\t\t\t" << (float)landingQ.totalWait/(float)totalLanded << endl;
+	}
+	if(totalTakeoff == 0)
+	{
+		outDataFile << "\t\tAverage wait time to take off: \t\t\t0" << endl;
+	}
+	else
+	{
+		outDataFile << "\t\tAverage wait time to take off: \t\t\t" << (float)takeoffQ.totalWait/(float)totalTakeoff << endl;
+	}
 	return 0;
 }
 

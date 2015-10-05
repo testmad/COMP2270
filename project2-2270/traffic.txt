@@ -1,0 +1,269 @@
+Total time units: 20
+Landing expected: 5
+Takeoff expected: 1
+Fuel expected: 5
+
+ACTIVITY LOG:
+
+		Plane 1 ready to land; 9 units of fuel remaining.
+		Plane 2 ready to land; 2 units of fuel remaining.
+		Plane 3 ready to land; 4 units of fuel remaining.
+		Plane 4 ready to take off.
+1:	Plane 2 landed; in queue 0 time units.
+		Plane 5 ready to land; 4 units of fuel remaining.
+		Plane 6 ready to land; 9 units of fuel remaining.
+		Plane 7 ready to land; 6 units of fuel remaining.
+		Plane 8 ready to land; 4 units of fuel remaining.
+		Plane 9 ready to land; 3 units of fuel remaining.
+		Plane 9 directed to another airport.
+		Plane 10 ready to land; 4 units of fuel remaining.
+		Plane 10 directed to another airport.
+		Plane 11 ready to land; 9 units of fuel remaining.
+		Plane 11 directed to another airport.
+		Plane 12 ready to land; 7 units of fuel remaining.
+		Plane 12 directed to another airport.
+		Plane 13 ready to land; 2 units of fuel remaining.
+		Plane 13 directed to another airport.
+		Plane 14 ready to take off.
+		Plane 15 ready to take off.
+2:	Plane 3 landed; in queue 1 time units.
+		Plane 16 ready to land; 5 units of fuel remaining.
+		Plane 17 ready to land; 2 units of fuel remaining.
+		Plane 17 directed to another airport.
+		Plane 18 ready to land; 5 units of fuel remaining.
+		Plane 18 directed to another airport.
+		Plane 19 ready to land; 3 units of fuel remaining.
+		Plane 19 directed to another airport.
+		Plane 20 ready to take off.
+3:	Plane 5 landed; in queue 1 time units.
+		Plane 21 ready to land; 2 units of fuel remaining.
+		Plane 22 ready to land; 9 units of fuel remaining.
+		Plane 22 directed to another airport.
+		Plane 23 ready to land; 4 units of fuel remaining.
+		Plane 23 directed to another airport.
+		Plane 24 ready to land; 9 units of fuel remaining.
+		Plane 24 directed to another airport.
+		Plane 25 ready to land; 7 units of fuel remaining.
+		Plane 25 directed to another airport.
+		Plane 26 ready to land; 3 units of fuel remaining.
+		Plane 26 directed to another airport.
+		Plane 27 ready to land; 5 units of fuel remaining.
+		Plane 27 directed to another airport.
+4:	Plane 8 landed; in queue 2 time units.
+		Plane 28 ready to land; 3 units of fuel remaining.
+		Plane 29 ready to land; 7 units of fuel remaining.
+		Plane 29 directed to another airport.
+		Plane 30 ready to land; 5 units of fuel remaining.
+		Plane 30 directed to another airport.
+5:	Plane 21 landed; in queue 1 time units.
+		Plane 31 ready to land; 4 units of fuel remaining.
+		Plane 32 ready to land; 5 units of fuel remaining.
+		Plane 32 directed to another airport.
+		Plane 33 ready to land; 4 units of fuel remaining.
+		Plane 33 directed to another airport.
+		Plane 34 ready to land; 7 units of fuel remaining.
+		Plane 34 directed to another airport.
+		Plane 35 ready to land; 7 units of fuel remaining.
+		Plane 35 directed to another airport.
+		Plane 36 ready to land; 4 units of fuel remaining.
+		Plane 36 directed to another airport.
+		Plane 37 ready to land; 2 units of fuel remaining.
+		Plane 37 directed to another airport.
+		Plane 38 ready to land; 5 units of fuel remaining.
+		Plane 38 directed to another airport.
+		Plane 39 ready to take off.
+		Plane 40 ready to take off.
+6:	Plane 7 landed; in queue 4 time units.
+		Plane 41 ready to land; 8 units of fuel remaining.
+		Plane 42 ready to land; 4 units of fuel remaining.
+		Plane 42 directed to another airport.
+		Plane 43 ready to land; 4 units of fuel remaining.
+		Plane 43 directed to another airport.
+		Plane 44 ready to take off.
+		Plane 44 told to try later.
+		Plane 45 ready to take off.
+		Plane 45 told to try later.
+7:	Plane 16 landed; in queue 4 time units.
+		Plane 46 ready to land; 7 units of fuel remaining.
+		Plane 47 ready to land; 1 units of fuel remaining.
+		Plane 47 directed to another airport.
+		Plane 48 ready to land; 7 units of fuel remaining.
+		Plane 48 directed to another airport.
+		Plane 49 ready to land; 5 units of fuel remaining.
+		Plane 49 directed to another airport.
+		Plane 50 ready to land; 5 units of fuel remaining.
+		Plane 50 directed to another airport.
+		Plane 51 ready to land; 1 units of fuel remaining.
+		Plane 51 directed to another airport.
+		Plane 52 ready to land; 10 units of fuel remaining.
+		Plane 52 directed to another airport.
+		Plane 53 ready to land; 6 units of fuel remaining.
+		Plane 53 directed to another airport.
+		Plane 54 ready to land; 8 units of fuel remaining.
+		Plane 54 directed to another airport.
+		Plane 55 ready to take off.
+		Plane 55 told to try later.
+		Plane 56 ready to take off.
+		Plane 56 told to try later.
+8:	Plane 28 landed; in queue 3 time units.
+		Plane 57 ready to land; 2 units of fuel remaining.
+		Plane 58 ready to land; 10 units of fuel remaining.
+		Plane 58 directed to another airport.
+		Plane 59 ready to land; 3 units of fuel remaining.
+		Plane 59 directed to another airport.
+		Plane 60 ready to land; 7 units of fuel remaining.
+		Plane 60 directed to another airport.
+		Plane 61 ready to land; 2 units of fuel remaining.
+		Plane 61 directed to another airport.
+		Plane 62 ready to take off.
+		Plane 62 told to try later.
+		Plane 63 ready to take off.
+		Plane 63 told to try later.
+		Plane 64 ready to take off.
+		Plane 64 told to try later.
+		Plane 65 ready to take off.
+		Plane 65 told to try later.
+9:	Plane 1 landed; in queue 8 time units.
+		Plane 66 ready to land; 4 units of fuel remaining.
+		Plane 67 ready to land; 3 units of fuel remaining.
+		Plane 67 directed to another airport.
+		Plane 68 ready to land; 4 units of fuel remaining.
+		Plane 68 directed to another airport.
+		Plane 69 ready to land; 10 units of fuel remaining.
+		Plane 69 directed to another airport.
+		Plane 70 ready to take off.
+		Plane 70 told to try later.
+		Plane 71 ready to take off.
+		Plane 71 told to try later.
+		Plane 72 ready to take off.
+		Plane 72 told to try later.
+10:	Plane 31 landed; in queue 4 time units.
+		Plane 73 ready to land; 4 units of fuel remaining.
+		Plane 74 ready to land; 7 units of fuel remaining.
+		Plane 74 directed to another airport.
+		Plane 75 ready to take off.
+		Plane 75 told to try later.
+11:	Plane 6 landed; in queue 9 time units.
+		Plane 76 ready to land; 9 units of fuel remaining.
+		Plane 77 ready to land; 7 units of fuel remaining.
+		Plane 77 directed to another airport.
+		Plane 78 ready to land; 7 units of fuel remaining.
+		Plane 78 directed to another airport.
+		Plane 79 ready to take off.
+		Plane 79 told to try later.
+		Plane 57 has crashed!
+12:	Plane 66 landed; in queue 2 time units.
+		Plane 80 ready to land; 2 units of fuel remaining.
+		Plane 81 ready to land; 7 units of fuel remaining.
+		Plane 82 ready to land; 3 units of fuel remaining.
+		Plane 82 directed to another airport.
+		Plane 83 ready to land; 5 units of fuel remaining.
+		Plane 83 directed to another airport.
+		Plane 84 ready to take off.
+		Plane 84 told to try later.
+13:	Plane 41 landed; in queue 6 time units.
+		Plane 85 ready to land; 6 units of fuel remaining.
+		Plane 86 ready to land; 4 units of fuel remaining.
+		Plane 86 directed to another airport.
+		Plane 87 ready to land; 4 units of fuel remaining.
+		Plane 87 directed to another airport.
+		Plane 88 ready to land; 8 units of fuel remaining.
+		Plane 88 directed to another airport.
+		Plane 89 ready to land; 5 units of fuel remaining.
+		Plane 89 directed to another airport.
+		Plane 90 ready to land; 5 units of fuel remaining.
+		Plane 90 directed to another airport.
+		Plane 91 ready to land; 11 units of fuel remaining.
+		Plane 91 directed to another airport.
+14:	Plane 46 landed; in queue 6 time units.
+		Plane 92 ready to land; 6 units of fuel remaining.
+		Plane 93 ready to land; 7 units of fuel remaining.
+		Plane 93 directed to another airport.
+		Plane 94 ready to land; 2 units of fuel remaining.
+		Plane 94 directed to another airport.
+		Plane 95 ready to land; 2 units of fuel remaining.
+		Plane 95 directed to another airport.
+		Plane 96 ready to land; 4 units of fuel remaining.
+		Plane 96 directed to another airport.
+		Plane 97 ready to land; 3 units of fuel remaining.
+		Plane 97 directed to another airport.
+		Plane 98 ready to land; 2 units of fuel remaining.
+		Plane 98 directed to another airport.
+15:	Plane 73 landed; in queue 4 time units.
+		Plane 99 ready to land; 2 units of fuel remaining.
+		Plane 100 ready to land; 6 units of fuel remaining.
+		Plane 100 directed to another airport.
+		Plane 101 ready to land; 2 units of fuel remaining.
+		Plane 101 directed to another airport.
+		Plane 102 ready to land; 4 units of fuel remaining.
+		Plane 102 directed to another airport.
+		Plane 103 ready to land; 3 units of fuel remaining.
+		Plane 103 directed to another airport.
+		Plane 80 has crashed!
+16:	Plane 99 landed; in queue 0 time units.
+		Plane 104 ready to land; 5 units of fuel remaining.
+		Plane 105 ready to land; 3 units of fuel remaining.
+		Plane 106 ready to land; 7 units of fuel remaining.
+		Plane 106 directed to another airport.
+		Plane 107 ready to land; 9 units of fuel remaining.
+		Plane 107 directed to another airport.
+		Plane 108 ready to land; 6 units of fuel remaining.
+		Plane 108 directed to another airport.
+		Plane 109 ready to land; 4 units of fuel remaining.
+		Plane 109 directed to another airport.
+		Plane 110 ready to take off.
+		Plane 110 told to try later.
+		Plane 111 ready to take off.
+		Plane 111 told to try later.
+17:	Plane 81 landed; in queue 4 time units.
+		Plane 112 ready to land; 6 units of fuel remaining.
+		Plane 113 ready to land; 4 units of fuel remaining.
+		Plane 113 directed to another airport.
+		Plane 114 ready to land; 2 units of fuel remaining.
+		Plane 114 directed to another airport.
+		Plane 115 ready to land; 6 units of fuel remaining.
+		Plane 115 directed to another airport.
+18:	Plane 85 landed; in queue 4 time units.
+		Plane 116 ready to land; 9 units of fuel remaining.
+		Plane 117 ready to land; 8 units of fuel remaining.
+		Plane 117 directed to another airport.
+		Plane 118 ready to land; 5 units of fuel remaining.
+		Plane 118 directed to another airport.
+		Plane 119 ready to land; 5 units of fuel remaining.
+		Plane 119 directed to another airport.
+		Plane 120 ready to land; 2 units of fuel remaining.
+		Plane 120 directed to another airport.
+		Plane 121 ready to land; 3 units of fuel remaining.
+		Plane 121 directed to another airport.
+		Plane 122 ready to take off.
+		Plane 122 told to try later.
+		Plane 123 ready to take off.
+		Plane 123 told to try later.
+19:	Plane 105 landed; in queue 2 time units.
+		Plane 124 ready to land; 5 units of fuel remaining.
+		Plane 125 ready to land; 5 units of fuel remaining.
+		Plane 125 directed to another airport.
+		Plane 126 ready to land; 5 units of fuel remaining.
+		Plane 126 directed to another airport.
+		Plane 127 ready to land; 2 units of fuel remaining.
+		Plane 127 directed to another airport.
+		Plane 128 ready to land; 3 units of fuel remaining.
+		Plane 128 directed to another airport.
+		Plane 129 ready to land; 4 units of fuel remaining.
+		Plane 129 directed to another airport.
+20:	Plane 76 landed; in queue 8 time units.
+
+SUMMARY:
+
+	Simulation has concluded after 20 time units.
+
+	Total number of planes processed: 			129
+		Number of planes landed: 				20
+		Number of planes taken off: 			0
+		Number of planes refused use: 			96
+		Number left ready to land: 				5
+		Number left ready to take off: 			6
+		Number crashed: 						2
+		Percentage of time runway was idle: 	0
+		Average wait time to land: 				3.65
+		Average wait time to take off: 			0
