@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+//#include <stdlib.h>
 
 using namespace std;
 
@@ -162,76 +164,57 @@ class SplayTree
 				else
 				{
 					cout<<"Splaying node."<<endl;
-					cout<<"Parent assignment"<<endl;
+
 					p = tmp_node->parent;
 
-					cout<<"GrandParent assignment"<<endl;
 					gp = p->parent;
 
 					if(gp == NULL)
 					{
-						cout<<"1 begin."<<endl;
-						
 						if(tmp_node == p->leftChild)
 						{
-							cout<<"1a."<<endl;
 							//Zig rotation
 							root = L_Rotation(tmp_node);
-							
 						}
 						else
 						{
-							cout<<"1b."<<endl;
 							//Zag rotation
 							root = R_Rotation(tmp_node);
-							
 						}
-						cout<<"1 end."<<endl;
 					}
 					else
 					{
-						cout<<"2 begin."<<endl;
 						if (p == gp->leftChild)
 						{
-							cout<<"2a."<<endl;
 							if(tmp_node == p->leftChild)
 							{
-								cout<<"2a1."<<endl;
 								//Zig-Zig rotation
 								root = LL_Rotation(tmp_node);
 							}
 							else
 							{
-								cout<<"2a2."<<endl;
 								//Zig-Zag rotation
-								root = L_Rotation(tmp_node);
 								root = R_Rotation(tmp_node);
+								root = L_Rotation(tmp_node);
 							}
 						}
 						else
 						{
-							cout<<"2b."<<endl;
 							if(tmp_node == p->leftChild)
 							{
-								cout<<"2b1."<<endl;
 								//Zag-Zig rotation
-								root = R_Rotation(tmp_node);
 								root = L_Rotation(tmp_node);
+								root = R_Rotation(tmp_node);
 							}
 							else
 							{
-								cout<<"2b2."<<endl;
 								//Zag-Zag rotation
 								root = RR_Rotation(tmp_node);
 							}
 						}
-						cout<<"2 end."<<endl;
 					}
 				}
 			}
-			
-			
-			
 			return root;
 		}
 		
@@ -335,9 +318,26 @@ class SplayTree
 			
 		}
 		
-		void clear()
+		node* clear(node* root)
 		{
+			if(!root)
+			{
+				return NULL;
+			}
 			
+			if(!root->leftChild && !root->rightChild)
+			{
+				free(root);
+				return NULL;
+			}
+			
+			clear(root->leftChild);
+			clear(root->rightChild);
+			
+			free(root);
+			return NULL;
+			
+			cout<<"Tree cleared."<<endl;
 		}
 				
 		int getHeight(node* root)
@@ -348,27 +348,22 @@ class SplayTree
 				return 1 + max(getHeight(root->leftChild), getHeight(root->rightChild));
 		}
 		
+		
 		void display(node* root)
 		{
 			if(root)
 			{
-				//
-				//
-				// crashing on getheight after inserting h
-				//
-				//
-				
-				cout<<"TRYING: "<<getHeight(root)<<endl;
-				
 				string left;
 				string right;
+
+				int height = getHeight(root);
 				
-				if(getHeight(root) >= 0)
+				if(height >= 0)
 				{
 					cout<<"                               "<<root->key<<endl;
 				}
 				
-				if(getHeight(root) >= 1)
+				if(height >= 1)
 				{
 					if(root->leftChild == NULL )
 						left = "***";
@@ -383,7 +378,7 @@ class SplayTree
 					cout<<"               "<<left<<"                             "<<right<<endl;
 				}
 				
-				if(getHeight(root) >= 2)
+				if(height >= 2)
 				{
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL )
 						left = "***";
@@ -410,7 +405,7 @@ class SplayTree
 					cout << "             "<<left <<"             " << right << endl;
 				}
 				
-				if(getHeight(root) >= 3)
+				if(height >= 3)
 				{
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL || root->leftChild->leftChild->leftChild == NULL)
 						left = "***";
@@ -465,94 +460,140 @@ class SplayTree
 					cout << "     "<<left << "     " << right<<endl;
 				}
 			}
-			else
-			{
-				cout<<"PROBLEM!!!!"<<endl;
-			}
 		}
-		
-		
 };
 
 int main()
 {
 	SplayTree splayTree;
-		
+	
+	ifstream inDataFile;
+	string filename;
+	
 	node* root;
 	
 	root = NULL;
 
-	cout<<"Inserting m."<<endl;
-	root = splayTree.insertNode("m", root);
-	system("pause");
-	splayTree.display(root);
+	string key;
+	int choice;
 	
-	system("pause");
+	while(1)
+	{
+		//system("cls");
+		cout << "\n ----------------------\n" << endl;
+		cout << " 1. Build tree from file." << endl;
+		cout << " 2. Insert a key." << endl;
+		cout << " 3. Delete a key." << endl;
+		cout << " 4. Search for key." << endl;
+		cout << " 5. Clear the tree." << endl;
+		cout << " 6. Exit." << endl;
+		cout << "\n ----------------------\n" << endl;
+		cout << " Enter a selection: ";
+		
+		cin>>choice;
+		
+		switch(choice)
+		{
+			case 1:
+				cin.clear();
+				cin.sync();
+				cout << endl;
+				
+				cout << "Enter a filename to process: ";
+				getline(cin, filename);
+				
+				inDataFile.open(filename.c_str());
+				
+				if(inDataFile.fail())
+				{
+					cout << "Error opening data file." << endl;
+					system("pause");
+					exit(1);
+				}
 	
-	cout<<"Inserting o."<<endl;
-	//cout<<"Root: "<<root->key<<endl;
-	root = splayTree.insertNode("o", root);
-	system("pause");
-	splayTree.display(root);
-	
-	system("pause");
-	
-	cout<<"Inserting e."<<endl;
-	//cout<<"Root: "<<root->key<<endl;
-	root = splayTree.insertNode("e", root);
-	system("pause");
-	splayTree.display(root);
-	
-	system("pause");
-	
-	cout<<"Inserting a."<<endl;
-	//cout<<"Root: "<<root->key<<endl;
-	root = splayTree.insertNode("a", root);
-	system("pause");
-	splayTree.display(root);
-	
-	system("pause");
-	
-	cout<<"Inserting z."<<endl;
-	//cout<<"Root: "<<root->key<<endl;
-	root = splayTree.insertNode("z", root);
-	system("pause");
-	splayTree.display(root);
-	
-	system("pause");
+				cin.clear();
+				cin.sync();
+				cout << endl;
+				
+				while( inDataFile>>key )
+				{
+					root = splayTree.insertNode(key, root);
+					
+					//call display function here to show after every insert.
+					splayTree.display(root);
+				}
 
-	cout<<"Inserting h."<<endl;
-	root = splayTree.insertNode("h", root);
-	system("pause");
-	splayTree.display(root);///////////////////////CRASHING HERE!!!??????
-	
-	system("pause");
-	
-	cout<<"Inserting k."<<endl;
-	root = splayTree.insertNode("k", root);
-	system("pause");
-	splayTree.display(root);
-	
-	system("pause");
-	
-	cout<<"Inserting j."<<endl;
-	root = splayTree.insertNode("g", root);
-	system("pause");
-	
-	cout<<"Inserting k again."<<endl;
-	root = splayTree.insertNode("k", root);
-	system("pause");
-	
-	cout<<"Inserting m again."<<endl;
-	root = splayTree.insertNode("m", root);
-	system("pause");
-	
-	cout<<endl<< splayTree.getHeight(root)<<endl;
-	
-	
-	splayTree.display(root);
-	
-	system("pause");
+				break;
+				
+			case 2:
+				cin.clear();
+				cin.sync();
+				cout << endl;
+				
+				cout << " Enter key to add: ";
+				cin>>key;
+				
+				root = splayTree.insertNode(key, root);
+				
+				//call display function here to show after every insert.
+				splayTree.display(root);
+				
+				break;
+				
+			case 3:
+//				cin.clear();
+//				cin.sync();
+//				cout << endl;
+//				
+//				cout << " Enter key to delete: ";
+//				cin>>key;
+//				
+//				root = splayTree.DeleteKey(key, root);
+//				
+//				//call display function here to show after every insert.
+//				splayTree.InOrder(root, splayTree.getHeight(root));
+				
+				break;
+				
+			case 4:
+//				cin.clear();
+//				cin.sync();
+//				cout << endl;
+//				
+//				cout << " Enter key to search for: ";
+//				cin>>key;
+//				
+//				root = splayTree.searchKey(key, root);
+//				
+//				//call display function here to show after every insert.
+//				splayTree.InOrder(root, splayTree.getHeight(root));
+				
+				break;
+				
+			case 5:
+				cin.clear();
+				cin.sync();
+				cout << endl;
+							
+				root = splayTree.clear(root);
+				splayTree.display(root);
+				
+				//call display function here to show after every insert.
+				
+				
+				break;
+				
+			case 6:
+				exit(1);
+			default:
+				cin.clear();
+				cin.sync();
+				cout << endl;
+				cout << " Enter a correct selection.\n\n";
+				system("pause");
+		}
+				
+	}
 	
 	return 0;
 }
