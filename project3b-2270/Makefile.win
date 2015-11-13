@@ -1,14 +1,14 @@
 # Project: Project3b
-# Makefile created by Dev-C++ 5.11
+# Makefile created by Dev-C++ 5.9.0
 
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
 OBJ      = main.o
 LINKOBJ  = main.o
-LIBS     = -L"f:/Program Files (x86)/Dev-Cpp/MinGW64/lib32" -L"f:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -m32
-INCS     = -I"f:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"f:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"f:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
-CXXINCS  = -I"f:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"f:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"f:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"f:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+LIBS     = -L"C:/Program Files/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -m32
+INCS     = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"
+CXXINCS  = -I"C:/Program Files/Dev-Cpp/MinGW64/include" -I"C:/Program Files/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"C:/Program Files/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"
 BIN      = Project3b.exe
 CXXFLAGS = $(CXXINCS) -m32 -std=c++11
 CFLAGS   = $(INCS) -m32 -std=c++11

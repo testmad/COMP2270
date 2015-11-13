@@ -36,7 +36,7 @@ class SplayTree
 			tmp_node->parent = p->parent;
 			p->parent = tmp_node;
 			
-			display(tmp_node);
+			//display(tmp_node);
 			
 			return tmp_node;
 		}
@@ -57,7 +57,7 @@ class SplayTree
 			tmp_node->parent = p->parent;
 			p->parent = tmp_node;
 
-			display(tmp_node);
+			//display(tmp_node);
 			
 			return tmp_node;
 		}
@@ -103,7 +103,7 @@ class SplayTree
 			}
 			else
 			{
-				display(tmp_node);
+				//display(tmp_node);
 				
 				return tmp_node;
 			}
@@ -150,10 +150,83 @@ class SplayTree
 			}
 			else
 			{
-				display(tmp_node);
+				//display(tmp_node);
 				
 				return tmp_node;
 			}
+		}
+		
+		node* LR_Rotation(node* tmp_node)
+		{
+			
+			
+			//cout<<"LR_Rotation"<<endl;
+			
+			node* p = tmp_node->parent;
+			node* gp = p->parent;
+			node* ggp = gp->parent;
+			
+			
+			
+			
+			p->leftChild = tmp_node->rightChild;
+			
+			if(p->leftChild)
+				p->leftChild->parent = p;
+				
+			tmp_node->rightChild = p;
+			tmp_node->parent = p->parent;
+			p->parent = tmp_node;
+			
+
+			
+
+			
+			p->rightChild = tmp_node->leftChild;
+
+			if(p->rightChild)
+				p->rightChild->parent = p;
+				
+			tmp_node->leftChild = p;
+			tmp_node->parent = p->parent;
+			p->parent = tmp_node;
+
+			
+			
+			tmp_node->parent = ggp;
+			
+			if(ggp)
+			{
+				if(gp == ggp->rightChild)
+					ggp->rightChild = tmp_node;
+				else
+					ggp->leftChild = tmp_node;
+			}
+			else
+			{
+				//display(tmp_node);
+				
+				return tmp_node;
+			}
+						
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		node* RL_Rotation(node* tmp_node)
+		{
+			
 		}
 		
 		node* splay(node* tmp_node, node* root)
@@ -184,14 +257,14 @@ class SplayTree
 						{
 							//Zig rotation
 							//cout<<"L_ROT"<<endl;
-							tmp_node = L_Rotation(tmp_node);
+							root = L_Rotation(tmp_node);
 							//display(root);
 						}
 						else
 						{
 							//Zag rotation
 							//cout<<"R_ROT"<<endl;
-							tmp_node = R_Rotation(tmp_node);
+							root = R_Rotation(tmp_node);
 							//display(root);
 						}
 					}
@@ -204,6 +277,8 @@ class SplayTree
 								//Zig-Zig rotation
 								//cout<<"LL_ROT"<<endl;
 								tmp_node = LL_Rotation(tmp_node);
+								if(tmp_node->parent == NULL)
+									root = tmp_node;
 								//display(root);
 							}
 							else
@@ -213,6 +288,8 @@ class SplayTree
 								//tmp_node = R_Rotation(tmp_node);
 								//cout<<"rl_ROT 11111111"<<endl;
 								tmp_node = L_Rotation(R_Rotation(tmp_node));
+								if(tmp_node->parent == NULL)
+									root = tmp_node;
 								//cout<<"rl_ROT 22222222"<<endl;
 								//cout<<tmp_node->key<<" <tmp : root> "<< root->key<<endl;
 								//display(root);
@@ -228,6 +305,8 @@ class SplayTree
 								
 								//tmp_node = L_Rotation(tmp_node);
 								tmp_node = R_Rotation(L_Rotation(tmp_node));
+								if(tmp_node->parent == NULL)
+									root = tmp_node;
 								
 								
 								
@@ -238,6 +317,8 @@ class SplayTree
 								//Zag-Zag rotation
 								//cout<<"RR_ROT"<<endl;
 								tmp_node = RR_Rotation(tmp_node);
+								if(tmp_node->parent == NULL)
+									root = tmp_node;
 								//display(root);
 							}
 						}
@@ -332,7 +413,7 @@ class SplayTree
 			
 			root = splay(tmp_node, root);
 
-			tmp_node = NULL;
+			//tmp_node = NULL;
 			
 			return root;
 		}
@@ -695,7 +776,7 @@ int main()
 				root = splayTree.insertNode(key, root);
 				
 				//call display function here to show after every insert.
-				//splayTree.display(root);
+				splayTree.display(root);
 				
 				break;
 				
