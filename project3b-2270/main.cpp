@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 //#include <stdlib.h>
 
 using namespace std;
@@ -23,7 +24,7 @@ class SplayTree
 		//ZIG
 		node* L_Rotation(node* tmp_node)
 		{
-			cout<<"L_Rotation"<<endl;
+			//cout<<"L_Rotation"<<endl;
 			
 			node* p = tmp_node->parent;
 			
@@ -44,7 +45,7 @@ class SplayTree
 		//ZAG
 		node* R_Rotation(node* tmp_node)
 		{
-			cout<<"R_Rotation"<<endl;
+			//cout<<"R_Rotation"<<endl;
 			
 			node* p = tmp_node->parent;
 			
@@ -64,7 +65,7 @@ class SplayTree
 		
 		node* LL_Rotation(node* tmp_node)
 		{
-			cout<<"LL_Rotation"<<endl;
+			//cout<<"LL_Rotation"<<endl;
 			
 			node* p = tmp_node->parent;
 			node* gp = p->parent;
@@ -101,17 +102,14 @@ class SplayTree
 				else
 					ggp->rightChild = tmp_node;
 			}
-			else
-			{
-				//display(tmp_node);
 				
 				return tmp_node;
-			}
+
 		}
 		
 		node* RR_Rotation(node* tmp_node)
 		{
-			cout<<"RR_Rotation"<<endl;
+			//cout<<"RR_Rotation"<<endl;
 			
 			node* p = tmp_node->parent;
 			node* gp = p->parent;
@@ -139,7 +137,7 @@ class SplayTree
 			
 			///
 			
-			tmp_node->parent = ggp;
+			 tmp_node->parent = ggp;
 			
 			if(ggp)
 			{
@@ -148,26 +146,18 @@ class SplayTree
 				else
 					ggp->leftChild = tmp_node;
 			}
-			else
-			{
-				//display(tmp_node);
-				
-				return tmp_node;
-			}
+
+			return tmp_node;
+
 		}
 		
 		node* LR_Rotation(node* tmp_node)
 		{
-			
-			
 			//cout<<"LR_Rotation"<<endl;
 			
 			node* p = tmp_node->parent;
 			node* gp = p->parent;
 			node* ggp = gp->parent;
-			
-			
-			
 			
 			p->leftChild = tmp_node->rightChild;
 			
@@ -177,56 +167,66 @@ class SplayTree
 			tmp_node->rightChild = p;
 			tmp_node->parent = p->parent;
 			p->parent = tmp_node;
-			
+		
+			tmp_node->parent = ggp;
+		
+			if(ggp)
+			{
+				if(gp == ggp->leftChild)
+					ggp->leftChild = tmp_node;
+				else
+					ggp->rightChild = tmp_node;
+			}
+		
+			gp->rightChild = tmp_node->leftChild;
 
+			if(gp->rightChild)
+				gp->rightChild->parent = gp;
+				
+			tmp_node->leftChild = gp;
 			
+			gp->parent = tmp_node;
 
+			return tmp_node;
+		}
+		
+		node* RL_Rotation(node* tmp_node)
+		{
+			//cout<<"RL_Rotation"<<endl;
+			
+			node* p = tmp_node->parent;
+			node* gp = p->parent;
+			node* ggp = gp->parent;
 			
 			p->rightChild = tmp_node->leftChild;
-
+			
 			if(p->rightChild)
 				p->rightChild->parent = p;
 				
 			tmp_node->leftChild = p;
 			tmp_node->parent = p->parent;
 			p->parent = tmp_node;
-
-			
-			
+		
 			tmp_node->parent = ggp;
-			
+		
 			if(ggp)
 			{
-				if(gp == ggp->rightChild)
-					ggp->rightChild = tmp_node;
-				else
+				if(gp == ggp->leftChild)
 					ggp->leftChild = tmp_node;
+				else
+					ggp->rightChild = tmp_node;
 			}
-			else
-			{
-				//display(tmp_node);
-				
-				return tmp_node;
-			}
-						
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		}
 		
-		node* RL_Rotation(node* tmp_node)
-		{
+			gp->leftChild = tmp_node->rightChild;
+
+			if(gp->leftChild)
+				gp->leftChild->parent = gp;
+				
+			tmp_node->rightChild = gp;
 			
+			gp->parent = tmp_node;
+
+			return tmp_node;
 		}
 		
 		node* splay(node* tmp_node, node* root)
@@ -239,13 +239,13 @@ class SplayTree
 			{
 				if(tmp_node == NULL || tmp_node == root)
 				{
-					cout<<"Splay not needed. Already root."<<endl;
+					//cout<<"Splay not needed. Already root."<<endl;
 					//return tmp_node;
 					break;
 				}
 				else
 				{
-					cout<<"Splaying node."<<endl;
+					//cout<<"Splaying node."<<endl;
 						
 					p = tmp_node->parent;
 
@@ -256,16 +256,14 @@ class SplayTree
 						if(tmp_node == p->leftChild)
 						{
 							//Zig rotation
-							//cout<<"L_ROT"<<endl;
+
 							root = L_Rotation(tmp_node);
-							//display(root);
 						}
 						else
 						{
 							//Zag rotation
-							//cout<<"R_ROT"<<endl;
+
 							root = R_Rotation(tmp_node);
-							//display(root);
 						}
 					}
 					else
@@ -275,42 +273,32 @@ class SplayTree
 							if(tmp_node == p->leftChild)
 							{
 								//Zig-Zig rotation
-								//cout<<"LL_ROT"<<endl;
+
 								tmp_node = LL_Rotation(tmp_node);
+
 								if(tmp_node->parent == NULL)
 									root = tmp_node;
-								//display(root);
 							}
 							else
 							{
 								//Zag-Zig rotation
-								//cout<<"rl_ROT"<<endl;
-								//tmp_node = R_Rotation(tmp_node);
-								//cout<<"rl_ROT 11111111"<<endl;
-								tmp_node = L_Rotation(R_Rotation(tmp_node));
+				
+								tmp_node = RL_Rotation(tmp_node);
+				
 								if(tmp_node->parent == NULL)
 									root = tmp_node;
-								//cout<<"rl_ROT 22222222"<<endl;
-								//cout<<tmp_node->key<<" <tmp : root> "<< root->key<<endl;
-								//display(root);
 							}
 						}
 						else
 						{
 							if(tmp_node == p->leftChild)
 							{
-							
-								
 								//Zig-Zag rotation
 								
-								//tmp_node = L_Rotation(tmp_node);
-								tmp_node = R_Rotation(L_Rotation(tmp_node));
+								tmp_node = LR_Rotation(tmp_node);
+				
 								if(tmp_node->parent == NULL)
 									root = tmp_node;
-								
-								
-								
-								//display(root);
 							}
 							else
 							{
@@ -319,7 +307,6 @@ class SplayTree
 								tmp_node = RR_Rotation(tmp_node);
 								if(tmp_node->parent == NULL)
 									root = tmp_node;
-								//display(root);
 							}
 						}
 					}
@@ -334,7 +321,7 @@ class SplayTree
 			
 			if(!tmp_node)
 			{
-				cout<<"Error allocating node."<<endl;
+				cout<<endl<<"Error allocating node."<<endl;
 				exit(1);
 			}
 			
@@ -412,15 +399,75 @@ class SplayTree
 			//Now splay.
 			
 			root = splay(tmp_node, root);
-
-			//tmp_node = NULL;
 			
 			return root;
 		}
 		
-		void search()
+		node* search(string key, node* root)
 		{
 			
+			if(!root)
+			{
+				cout<<endl<<"There is not tree to search."<<endl;
+				
+				return root;
+			}
+			
+
+			node* tmp_root = root;
+			
+			bool found = false;
+			
+			while(1)
+			{
+				if(key < tmp_root->key)
+				{
+					if(tmp_root->leftChild)
+					{
+						tmp_root = tmp_root->leftChild;
+						//cout<<"Going deeper and left."<<endl;
+					}
+					else
+					{
+						//cout<<"Node not found."<<endl;
+						break;
+					}
+				}
+				
+				if(key > tmp_root->key)
+				{
+					if(tmp_root->rightChild)
+					{
+						tmp_root = tmp_root->rightChild;
+						//cout<<"Going deeper and right."<<endl;
+					}
+					else
+					{
+						//cout<<"Node not found."<<endl;
+						break;
+					}
+				}
+				
+				if(key == tmp_root->key)
+				{
+					//cout<<"Node found."<<endl;
+					found = true;
+					break;
+				}
+			}
+			
+			///tmp_root should now have searched the expected location and either found a mathcing key or NULL.
+			//Notify user.
+			
+			if(found)
+			{
+				cout<<endl<<"The key: "<< key << " has been found."<<endl;
+				root = splay(tmp_root, root);
+			}
+			else
+				cout<<endl<<"The key: "<< key << " was not found."<<endl;
+
+			return root;
 		}
 		
 		void deleteNode()
@@ -432,28 +479,28 @@ class SplayTree
 		{
 			if(!root)
 			{
+				//cout<<endl<<"No tree to clear."<<endl;
 				return NULL;
 			}
 			
-			if(!root->leftChild && !root->rightChild)
-			{
-				free(root);
-				return NULL;
-			}
+//			if(!root->leftChild && !root->rightChild)
+//			{
+//				free(root);
+//				return NULL;
+//			}
 			
 			clear(root->leftChild);
 			clear(root->rightChild);
 			
 			free(root);
+			//cout<<endl<<"Tree has been cleared."<<endl;
 			return NULL;
-			
-			cout<<"Tree cleared."<<endl;
 		}
 				
 		int getHeight(node* root)
 		{
 			if(root == NULL)
-				return 0;
+				return -1;
 			else
 				return 1 + max(getHeight(root->leftChild), getHeight(root->rightChild));
 		}
@@ -461,6 +508,8 @@ class SplayTree
 		
 		void display(node* root)
 		{
+			cout<<endl<<endl<<"SPLAY RESULTS:"<<endl<<endl;
+			
 			if(root)
 			{
 				string left;
@@ -470,7 +519,9 @@ class SplayTree
 				
 				if(height >= 0)
 				{
-					cout<<"                               "<<root->key<<endl;
+					cout<<"                 ______________"<<setw(3)<<setfill('_')<<root->key<<"______________"<<endl;
+					cout<<"                /                               \\"<<endl;
+					cout<<"                |                                |"<<endl;
 				}
 				
 				if(height >= 1)
@@ -796,17 +847,17 @@ int main()
 				break;
 				
 			case 4:
-//				cin.clear();
-//				cin.sync();
-//				cout << endl;
-//				
-//				cout << " Enter key to search for: ";
-//				cin>>key;
-//				
-//				root = splayTree.searchKey(key, root);
-//				
-//				//call display function here to show after every insert.
-//				splayTree.InOrder(root, splayTree.getHeight(root));
+				cin.clear();
+				cin.sync();
+				cout << endl;
+				
+				cout << " Enter key to search for: ";
+				cin>>key;
+				
+				root = splayTree.search(key, root);
+				
+				//call display function here to show after every insert.
+				splayTree.display(root);
 				
 				break;
 				
@@ -816,7 +867,7 @@ int main()
 				cout << endl;
 							
 				root = splayTree.clear(root);
-				splayTree.display(root);
+				//splayTree.display(root);
 				
 				//call display function here to show after every insert.
 				
@@ -825,6 +876,7 @@ int main()
 				
 			case 6:
 				exit(1);
+			
 			default:
 				cin.clear();
 				cin.sync();
