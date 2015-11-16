@@ -355,7 +355,7 @@ class SplayTree
 
 			if(!root)
 			{
-				cout<<endl<<"There is not tree to search."<<endl;
+				cout<<endl<<"There is no tree to search."<<endl;
 				return root;
 			}
 
@@ -410,9 +410,113 @@ class SplayTree
 			return root;
 		}
 
-		void deleteNode()
+		node* deleteNode(string key, node *root)
 		{
+			if(!root)
+			{
+				cout<<endl<<"There is no tree to delete from."<<endl;
+				return root;
+			}
 
+			node* tmp_root = root;
+
+			bool found = false;
+
+			while(1)
+			{
+				if(key < tmp_root->key)
+				{
+					if(tmp_root->leftChild)
+					{
+						tmp_root = tmp_root->leftChild;
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				if(key > tmp_root->key)
+				{
+					if(tmp_root->rightChild)
+					{
+						tmp_root = tmp_root->rightChild;
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				if(key == tmp_root->key)
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if(found)
+			{
+				node* delNode =  splay(tmp_root, root);
+				
+				node* leftRoot;
+				node* rightRoot;
+				
+				leftRoot = delNode->leftChild;
+				node* lrHighest = leftRoot;
+				
+				rightRoot = delNode->rightChild;
+				node* rrLowest = rightRoot;
+				
+				leftRoot->parent = NULL;
+				rightRoot->parent = NULL;
+				
+				delNode->leftChild = NULL;
+				delNode->rightChild = NULL;
+				
+				free(delNode);
+
+				if(leftRoot)
+				{	
+					while(1)
+					{
+
+						if(lrHighest->rightChild)
+							lrHighest = lrHighest->rightChild;
+						else
+							break;
+
+					}
+					
+					leftRoot = splay(lrHighest, leftRoot);
+				}
+				
+				if(rightRoot)
+				{	
+					while(1)
+					{
+
+						if(rrLowest->leftChild)
+							rrLowest = rrLowest->leftChild;
+						else
+							break;
+
+					}
+					
+					rightRoot = splay(rrLowest, rightRoot);
+				}
+				
+				leftRoot->rightChild = rightRoot;
+				if(leftRoot->rightChild)
+					rightRoot->parent = leftRoot;
+					
+				return leftRoot;
+			}
+			else
+			{
+				cout<<endl<<"Unable to delete key: "<< key << " was not found."<<endl;
+				return splay(tmp_root, root);
+			}
 		}
 
 		node* clear(node* root)
@@ -448,108 +552,79 @@ class SplayTree
 			{
 				string left;
 				string right;
-
 				int height = getHeight(root);
-				
 				if(height >= 0)
-				{
 					cout<<"                               "<<root->key<<endl<<endl;
-				}
-				
 				if(height >= 1)
 				{
 					if(root->leftChild == NULL )
 						left = "...";
 					else
 						left = root->leftChild->key;
-					
 					if(root->rightChild == NULL)
 						right = "...";
 					else
 						right = root->rightChild->key;
-						
 					cout<<"               "<<left<<"                             "<<right<<endl<<endl;
 				}
-				
 				if(height >= 2)
 				{
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL )
 						left = "...";
 					else
 						left = root->leftChild->leftChild->key;
-					
 					if(root->leftChild == NULL || root->leftChild->rightChild == NULL)
 						right = "...";
 					else
 						right = root->leftChild->rightChild->key;
-					
 					cout << "       "<<left << "             " << right;
-
 					if(root->rightChild == NULL || root->rightChild->leftChild == NULL )
 						left = "...";
 					else
 						left = root->rightChild->leftChild->key;
-					
 					if(root->rightChild == NULL || root->rightChild->rightChild == NULL)
 						right = "...";
 					else
 						right = root->rightChild->rightChild->key;
-
 					cout << "             "<<left <<"             " << right << endl<<endl;
 				}
-				
 				if(height >= 3)
 				{
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL || root->leftChild->leftChild->leftChild == NULL)
 						left = "...";
 					else
 						left = root->leftChild->leftChild->leftChild->key;
-					
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL || root->leftChild->leftChild->rightChild == NULL)
 						right = "...";
 					else
 						right = root->leftChild->leftChild->rightChild->key;
-					
 					cout << "   "<<left << "     " << right;
-					
-					
-					
 					if(root->leftChild == NULL || root->leftChild->rightChild == NULL || root->leftChild->rightChild->leftChild == NULL)
 						left = "...";
 					else
 						left = root->leftChild->rightChild->leftChild->key;
-					
 					if(root->leftChild == NULL || root->leftChild->rightChild == NULL || root->leftChild->rightChild->rightChild == NULL)
 						right = "...";
 					else
 						right = root->leftChild->rightChild->rightChild->key;
-					
 					cout << "     "<<left << "     " << right;
-					
-
 					if(root->rightChild == NULL || root->rightChild->leftChild == NULL || root->rightChild->leftChild->leftChild == NULL)
 						left = "...";
 					else
 						left = root->rightChild->leftChild->leftChild->key;
-					
 					if(root->rightChild == NULL || root->rightChild->leftChild == NULL || root->rightChild->leftChild->rightChild == NULL)
 						right = "...";
 					else
 						right = root->rightChild->leftChild->rightChild->key;
-
 					cout << "     "<<left <<"     " << right;
-					
-					
 					if(root->rightChild == NULL || root->rightChild->rightChild == NULL || root->rightChild->rightChild->leftChild == NULL)
 						left = "...";
 					else
 						left = root->rightChild->rightChild->leftChild->key;
-					
 					if(root->rightChild == NULL || root->rightChild->rightChild == NULL || root->rightChild->rightChild->rightChild == NULL)
 						right = "...";
 					else
 						right = root->rightChild->rightChild->rightChild->key;
-					
 					cout << "     "<<left << "     " << right<<endl<<endl;
 				}
 				
@@ -559,117 +634,75 @@ class SplayTree
 						left = "...";
 					else
 						left = root->leftChild->leftChild->leftChild->leftChild->key;
-					
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL || root->leftChild->leftChild->leftChild == NULL || root->leftChild->leftChild->leftChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->leftChild->leftChild->leftChild->rightChild->key;
-					
 					cout << " "<<left << " " << right;
-					
-					
-					
-					
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL || root->leftChild->leftChild->rightChild == NULL || root->leftChild->leftChild->rightChild->leftChild == NULL) 
 						left = "...";
 					else
 						left = root->leftChild->leftChild->rightChild->leftChild->key;
-					
 					if(root->leftChild == NULL || root->leftChild->leftChild == NULL || root->leftChild->leftChild->rightChild == NULL || root->leftChild->leftChild->rightChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->leftChild->leftChild->rightChild->rightChild->key;
-					
 					cout << " "<<left << " " << right;
-					
-					
-					
-					
 					if(root->leftChild == NULL || root->leftChild->rightChild == NULL || root->leftChild->rightChild->leftChild == NULL || root->leftChild->rightChild->leftChild->leftChild == NULL) 
 						left = "...";
 					else
 						left = root->leftChild->rightChild->leftChild->leftChild->key;
-					
 					if(root->leftChild == NULL || root->leftChild->rightChild == NULL || root->leftChild->rightChild->leftChild == NULL || root->leftChild->rightChild->leftChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->leftChild->rightChild->leftChild->rightChild->key;
-					
 					cout << " "<<left << " " << right;
-					
-					
-					
 					if(root->leftChild == NULL || root->leftChild->rightChild == NULL || root->leftChild->rightChild->rightChild == NULL || root->leftChild->rightChild->rightChild->leftChild == NULL) 
 						left = "...";
 					else
 						left = root->leftChild->rightChild->rightChild->leftChild->key;
-					
 					if(root->leftChild == NULL || root->leftChild->rightChild == NULL || root->leftChild->rightChild->rightChild == NULL || root->leftChild->rightChild->rightChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->leftChild->rightChild->rightChild->rightChild->key;
-					
 					cout << " "<<left << " " << right;
-					
-					
-					
 					if(root->rightChild == NULL || root->rightChild->leftChild == NULL || root->rightChild->leftChild->leftChild == NULL || root->rightChild->leftChild->leftChild->leftChild == NULL) 
 						left = "...";
 					else
 						left = root->rightChild->leftChild->leftChild->leftChild->key;
-					
 					if(root->rightChild == NULL || root->rightChild->leftChild == NULL || root->rightChild->leftChild->leftChild == NULL || root->rightChild->leftChild->leftChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->rightChild->leftChild->leftChild->rightChild->key;
-					
 					cout << " "<<left << " " << right;
-					
-					
-					
 					if(root->rightChild == NULL || root->rightChild->leftChild == NULL || root->rightChild->leftChild->rightChild == NULL || root->rightChild->leftChild->rightChild->leftChild == NULL) 
 						left = "...";
 					else
 						left = root->rightChild->leftChild->rightChild->leftChild->key;
-					
 					if(root->rightChild == NULL || root->rightChild->leftChild == NULL || root->rightChild->leftChild->rightChild == NULL || root->rightChild->leftChild->rightChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->rightChild->leftChild->rightChild->rightChild->key;
-					
 					cout << " "<<left << " " << right;
-					
-					
-					
 					if(root->rightChild == NULL || root->rightChild->rightChild == NULL || root->rightChild->rightChild->leftChild == NULL || root->rightChild->rightChild->leftChild->leftChild == NULL) 
 						left = "...";
 					else
 						left = root->rightChild->rightChild->leftChild->leftChild->key;
-					
 					if(root->rightChild == NULL || root->rightChild->rightChild == NULL || root->rightChild->rightChild->leftChild == NULL || root->rightChild->rightChild->leftChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->rightChild->rightChild->leftChild->rightChild->key;
-					
 					cout << " "<<left << " " << right;
-					
-					
-					
 					if(root->rightChild == NULL || root->rightChild->rightChild == NULL || root->rightChild->rightChild->rightChild == NULL || root->rightChild->rightChild->rightChild->leftChild == NULL) 
 						left = "...";
 					else
 						left = root->rightChild->rightChild->rightChild->leftChild->key;
-					
 					if(root->rightChild == NULL || root->rightChild->rightChild == NULL || root->rightChild->rightChild->rightChild == NULL || root->rightChild->rightChild->rightChild->rightChild == NULL) 
 						right = "...";
 					else
 						right = root->rightChild->rightChild->rightChild->rightChild->key;
-					
 					cout << " "<<left << " " << right<<endl;
-	
-					
 				}
-				
 				if(height >= 5)
 				{
 					cout << endl;
@@ -681,7 +714,6 @@ class SplayTree
 			}
 			else
 			{
-				//Should never see this, but just incase.
 				cout << endl;
 				cout << endl;
 				cout<<"****************************************************************"<<endl;
@@ -985,18 +1017,18 @@ int main()
 				break;
 
 			case 3:
-//				cin.clear();
-//				cin.sync();
-//				cout << endl;
-//
-//				cout << " Enter key to delete: ";
-//				cin>>key;
-//
-//				root = splayTree.DeleteKey(key, root);
-//
-//				//call display function here to show after every insert.
-//				splayTree.InOrder(root, splayTree.getHeight(root));
+				cin.clear();
+				cin.sync();
+				cout << endl;
 
+				cout << " Enter key to delete: ";
+				cin>>key;
+
+				root = splayTree.deleteNode(key, root);
+				if(prettyDisplay)
+						splayTree.displayPretty(root);
+					else
+						splayTree.display(root);
 				break;
 
 			case 4:
@@ -1014,7 +1046,6 @@ int main()
 						splayTree.displayPretty(root);
 					else
 						splayTree.display(root);
-
 				break;
 
 			case 5:
@@ -1026,7 +1057,6 @@ int main()
 						splayTree.displayPretty(root);
 					else
 						splayTree.display(root);
-
 				break;
 
 			case 6:
