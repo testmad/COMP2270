@@ -1,3 +1,8 @@
+//David Walker
+//Project 4
+//All commented lines are either explaining what something does, or is left overs from debug.
+//If you want to actually watch the program go through the steps, uncomment the couts and all methods.
+
 #include <iostream>
 #include <fstream>
 #include <math.h>
@@ -11,6 +16,7 @@ struct Edge
 	string node1;
 	string node2;
 	int weight;
+	bool chosen;
 };
 
 string center(string input, int width);
@@ -87,6 +93,7 @@ int main()
 			edge[edgeCount].node1 = nodes[j];
 			edge[edgeCount].node2 = nodes[k];
 			edge[edgeCount].weight = matrix[j][k];
+			edge[edgeCount].chosen = false;
 			edgeCount++;
 		}
 		counter++;
@@ -128,7 +135,7 @@ int main()
 		cout<<"-"<<endl;
 	}
 	
-	//sort edges in ascending order.
+	//sort edges in ascending numerical order by weight and alphabetical order by first node.
 	for(int i = 0; i < ((numNodes * numNodes + numNodes)/2) - numNodes; i++)
 	{
 		for(int j = i+1; j<((numNodes * numNodes + numNodes)/2) - numNodes;j++)
@@ -139,143 +146,155 @@ int main()
 				edge[i] = edge[j];
 				edge[j] = temp;
 			}
+			
+			if(edge[i].weight == edge[j].weight)
+			{
+				if(edge[i].node1 > edge[j].node1)
+				{
+					Edge temp = edge[i];
+					edge[i] = edge[j];
+					edge[j] = temp;
+				}
+			}
 		}
 	}
 	
-	//show all edges after sort
-	for(int i = 0; i< ((numNodes * numNodes + numNodes)/2) - numNodes;i++)
-		cout << "{ "<<edge[i].node1<<"  "<<edge[i].node2 <<" }"<<"\tweight = "<<edge[i].weight<<endl;
-	cout<<endl;
+	
+	
+	
+//	//show all edges after sort
+//	for(int i = 0; i< ((numNodes * numNodes + numNodes)/2) - numNodes;i++)
+//		cout << "{ "<<edge[i].node1<<"  "<<edge[i].node2 <<" }"<<"\tweight = "<<edge[i].weight<<endl;
+//	cout<<endl;
 
 
-	//selecting edges ?
+	//selecting edges
 	string chosen[numNodes];
 	for(int i = 0; i < numNodes; i++)
 		chosen[i] = nodes[i];
 	
-	
 	int weightTotal = 0;
 		
 	int nextIndex = 0;
-//	bool pass1 = false;
-//	bool pass2 = false;
 	
-	for(int i = 0; i < ((numNodes * numNodes + numNodes)/2) - numNodes;i++)
+	int chosenCount = 0;
+	
+	int i = 0;
+	
+	while(i < ((numNodes * numNodes + numNodes)/2) - numNodes  )
 	{
-		cout<< "Considering edge: "<<edge[i].node1<<"-"<<edge[i].node2<<endl;
+		if(chosenCount == numNodes -1)
+			break;
+			
+		bool free = true;
+		
+		//cout<< "Considering edge: "<<edge[i].node1<<"-"<<edge[i].node2<<endl;
 		if(edge[i].weight > 0)
 		{
-//			if( (chosen.find(edge[i].node1) == chosen.npos) && (chosen.find(edge[i].node2) == chosen.npos) )
-				//cout<<"NOTHING"<<endl;
-			
 			for(int j = 0; j < numNodes; j++)
 			{
+				//cout<<"Checking edge nodes: " << edge[i].node1 <<"-"<<edge[i].node2<<" against "<< chosen[j]<<endl; 
+				
 				if( chosen[j].find(edge[i].node1) != chosen[j].npos &&
 					chosen[j].find(edge[i].node2) != chosen[j].npos)
 				{
-					
-					cout<<"\t-Rejecting edge: "<< edge[i].node1 <<"-"<<edge[i].node2<< "\tBoth nodes in one set."<<endl;
+					//cout<<"\t-Rejecting edge: "<< edge[i].node1 <<"-"<<edge[i].node2<< "\tBoth nodes in one set."<<endl;
+					edge[i].chosen = false;
+					free = false;
 				}
-				else
-				{
-					//cout<<"one in one set or neither"<<endl;
-					//cout<< edge[i].node1<<" : "<<edge[i].node2;
-					for( int k = 0; k < numNodes; k++ )
-					{
-						
-						if(chosen[k].find(edge[i].node1) != chosen[k].npos)
-						{
-							if(chosen[k].length()> 1)
-								cout<<"found with others"<<endl;
-							else if (chosen[k].length() == 1)
-								cout<<"found by itself"<<endl;
-							else
-								cout<<"nothing"<<endl;
-						}
-					}
-					
-					
-					
-					
-				}
-					
-							
-				
 			}
-			
-			cout<<"testing"<<endl;
-			
-//			if(pass1 && pass2)
-//			{
-//				cout<<"both nodes in one set"<<endl;
-//			}
-//
-//			else
-//			{
-//				cout<<"both nodes are in different sets"<<endl;
-//				
-//				for(int j = 0; j < numNodes; j++)
-//				{
-//					if(chosen[j].find(edge[i].node1) != chosen[j].npos)
-//					{
-//						
-//						chosen[j] += edge[i].node2;
-//						
-//						for(int k = 0; k < numNodes; k++)
-//						{
-//							if(chosen[k].find(edge[i].node2) != chosen[j].npos)
-//								chosen[k] = "";
-//						}
-//						
-////						edge[i].node1 = "";
-////						edge[i].node2 = "";
-////						edge[i].weight = 0;
-//
-//
-//
-//						
-//					}
-//				
-//				
-//					
-//				}
-//				
-//			}
-//			
-//			
-//			pass1,pass2 = false;
-			
-			
-			
-//			for(int i = 0; i < numNodes; i++)
-//				cout << chosen[i]<<endl ;
-
-			
-			//if( (chosen.find(edge[i].node1) == chosen.npos) && (chosen.find(edge[i].node2) == chosen.npos) )
-
-					
-//			if( (chosen.find(edge[i].node1) == chosen.npos) && (chosen.find(edge[i].node2) == chosen.npos) )
-//			{
-//				cout << "{ "<<edge[i].node1<<"  "<<edge[i].node2 <<" }"<<"\tweight = "<<edge[i].weight<<endl;
-//				chosen += edge[i].node1;
-//				chosen += edge[i].node2;
-//				weightTotal += edge[i].weight;
-//			}
 				
+			if(free)
+			{
+				edge[i].chosen = true;
+				//cout<<"Nodes "<< edge[i].node1 <<"-"<<edge[i].node2 << " are independent.  Finding first node."<<endl;
+				
+				int firstNodeLocation;
+				int secondNodeLocation;
+				
+				for( int j = 0; j < numNodes; j++ )
+				{
+					if(chosen[j].find(edge[i].node1) != chosen[j].npos)
+					{
+						//cout<<"Found "<< edge[i].node1 << " in " << chosen[j] << endl;
+						
+						firstNodeLocation = j;
+					}
+				}
+				
+				for( int j = firstNodeLocation + 1; j < numNodes; j++ )
+				{
+					if(chosen[j].find(edge[i].node2) != chosen[j].npos)
+					{
+						//cout<<"Found "<< edge[i].node2 << " in " << chosen[j] << endl;
+
+						secondNodeLocation = j;
+					}
+				}
+				
+				chosen[firstNodeLocation] += chosen[secondNodeLocation];
+				chosen[secondNodeLocation] = "";
+				
+//				cout<<"Sets after moving: "<<endl;
+//				for( int j = 0; j < numNodes; j++ )
+//				{
+//					
+//					cout<<chosen[j]<<endl;
+//
+//				}
+				
+				chosenCount++;
+			}
 		}
+			
 		else
 		{
-			cout<<"\t-Edge not present."<<endl;
-			
+			//cout<<"\t-Edge not present."<<endl;
 		}
-
 		
-		
-		
+		i++;
 		
 	}
+	
+//	//show chosen edges after kruskals.
+//	for(int i = 0; i< ((numNodes * numNodes + numNodes)/2) - numNodes;i++)
+//	{
+//		if(edge[i].chosen)
+//			cout << "{ "<<edge[i].node1<<"  "<<edge[i].node2 <<" }"<<"\tweight = "<<edge[i].weight<<endl;
+//	}
 		
-	return 0;
+	cout<<endl<<endl<<endl<<endl;
+	cout<<center( "Edges included in the", 6+ 6*numNodes)<<endl;
+	cout<<center( "minimal spanning tree", 6+ 6*numNodes)<<endl;
+	cout<<center( "for this graph are:", 6+ 6*numNodes)<<endl;
+	cout<<endl<<endl;
+	
+	//pretty print chosen edges after kruskals and add up weight.
+	string str;
+	int totalWeight = 0;
+	
+	for(int i = 0; i< ((numNodes * numNodes + numNodes)/2) - numNodes;i++)
+	{
+		if(edge[i].chosen)
+		{
+			str =  "{ ";
+			str.append(edge[i].node1 );
+			str.append("  " );
+			str.append(edge[i].node2 );
+			str.append(" }" );
+			str.append("\tweight =" );
+			
+			cout <<center( str, 6+ 6*numNodes) << setw(3) << edge[i].weight << endl;
+			
+			totalWeight += edge[i].weight;
+		}
+			
+	}
+	
+	cout<<endl<<endl;
+	cout<<center( "Total weight of the ", 6+ 6*numNodes)<<endl;
+	cout<<center( "minimal spanning tree", 6+ 6*numNodes)<<endl;
+	cout<<center( "is: ", 2+ 6*numNodes) << setw(4) << totalWeight << endl;
 }
 
 string center(string input, int width)
