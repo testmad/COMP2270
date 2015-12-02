@@ -157,12 +157,12 @@ int main()
 	int weightTotal = 0;
 		
 	int nextIndex = 0;
-	bool pass1 = false;
-	bool pass2 = false;
+//	bool pass1 = false;
+//	bool pass2 = false;
 	
 	for(int i = 0; i < ((numNodes * numNodes + numNodes)/2) - numNodes;i++)
 	{
-		
+		cout<< "Considering edge: "<<edge[i].node1<<"-"<<edge[i].node2<<endl;
 		if(edge[i].weight > 0)
 		{
 //			if( (chosen.find(edge[i].node1) == chosen.npos) && (chosen.find(edge[i].node2) == chosen.npos) )
@@ -170,70 +170,85 @@ int main()
 			
 			for(int j = 0; j < numNodes; j++)
 			{
-				if(chosen[j].find(edge[i].node1) == chosen[j].npos)
+				if( chosen[j].find(edge[i].node1) != chosen[j].npos &&
+					chosen[j].find(edge[i].node2) != chosen[j].npos)
 				{
 					
-					pass1 = false;
+					cout<<"\t-Rejecting edge: "<< edge[i].node1 <<"-"<<edge[i].node2<< "\tBoth nodes in one set."<<endl;
 				}
 				else
-					pass1 = true;
-				
-				if(chosen[j].find(edge[i].node2) == chosen[j].npos)
 				{
-						
-					pass2 = false;
-				}
-				else
-					pass2 = true;
-					
-					
-				
-				 
-				
-				
-			}
-			
-			if(pass1 && pass2)
-			{
-				cout<<"both nodes in one set"<<endl;
-			}
-
-			else
-			{
-				cout<<"both nodes are in different sets"<<endl;
-				
-				for(int j = 0; j < numNodes; j++)
-				{
-					if(chosen[j].find(edge[i].node1) != chosen[j].npos)
+					//cout<<"one in one set or neither"<<endl;
+					//cout<< edge[i].node1<<" : "<<edge[i].node2;
+					for( int k = 0; k < numNodes; k++ )
 					{
 						
-						chosen[j] += edge[i].node2;
-						
-						for(int k = 0; k < numNodes; k++)
+						if(chosen[k].find(edge[i].node1) != chosen[k].npos)
 						{
-							if(chosen[k].find(edge[i].node2) != chosen[j].npos)
-								chosen[k] = "";
+							if(chosen[k].length()> 1)
+								cout<<"found with others"<<endl;
+							else if (chosen[k].length() == 1)
+								cout<<"found by itself"<<endl;
+							else
+								cout<<"nothing"<<endl;
 						}
-						
-//						edge[i].node1 = "";
-//						edge[i].node2 = "";
-//						edge[i].weight = 0;
-						
 					}
-				
-				
+					
+					
+					
 					
 				}
+					
+							
 				
 			}
 			
+			cout<<"testing"<<endl;
 			
-			pass1,pass2 = false;
+//			if(pass1 && pass2)
+//			{
+//				cout<<"both nodes in one set"<<endl;
+//			}
+//
+//			else
+//			{
+//				cout<<"both nodes are in different sets"<<endl;
+//				
+//				for(int j = 0; j < numNodes; j++)
+//				{
+//					if(chosen[j].find(edge[i].node1) != chosen[j].npos)
+//					{
+//						
+//						chosen[j] += edge[i].node2;
+//						
+//						for(int k = 0; k < numNodes; k++)
+//						{
+//							if(chosen[k].find(edge[i].node2) != chosen[j].npos)
+//								chosen[k] = "";
+//						}
+//						
+////						edge[i].node1 = "";
+////						edge[i].node2 = "";
+////						edge[i].weight = 0;
+//
+//
+//
+//						
+//					}
+//				
+//				
+//					
+//				}
+//				
+//			}
+//			
+//			
+//			pass1,pass2 = false;
 			
 			
 			
-			for(int i = 0; i < numNodes; i++)
-				cout << chosen[i]<<endl ;
+//			for(int i = 0; i < numNodes; i++)
+//				cout << chosen[i]<<endl ;
 
 			
 			//if( (chosen.find(edge[i].node1) == chosen.npos) && (chosen.find(edge[i].node2) == chosen.npos) )
@@ -250,9 +265,7 @@ int main()
 		}
 		else
 		{
-			edge[i].node1 = "";
-			edge[i].node2 = "";
-			edge[i].weight = 0;
+			cout<<"\t-Edge not present."<<endl;
 			
 		}
 
